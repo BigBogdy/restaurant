@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react';
+import Banner from './components/Banner';
+import Header from './components/Header';
+import './index.css';
+import './fonts/assets.css';
+import Menu from './components/Menu';
+import Description from './components/Description';
+import { Box, Container } from '@mui/system';
+import Footer from './components/Footer';
+import Location from './components/Location';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Box
+        sx={{ background: 'linear-gradient(360deg, #211F20 0%, #44403F 100%)' }}
+      >
+        <Container maxWidth={false} sx={{ maxWidth: 1320 }}>
+          <Header />
+          <Banner />
+          <Menu />
+          <Description />
+          <Location />
+          <Footer />
+        </Container>
+      </Box>
+    </>
   );
 }
 
