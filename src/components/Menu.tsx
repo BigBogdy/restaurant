@@ -80,7 +80,7 @@ const Menu: FC = () => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ minHeight: '100vh' }}>
+    <Box>
       <Box
         sx={{
           display: 'flex',

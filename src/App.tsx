@@ -8,6 +8,7 @@ import Description from './components/Description';
 import { Box, Container } from '@mui/system';
 import Footer from './components/Footer';
 import Location from './components/Location';
+import MapLocation from './components/MapLocation';
 
 function App() {
   return (
@@ -20,9 +21,9 @@ function App() {
           <Banner />
           <Menu />
           <Description />
-          <Location />
-          <Footer />
         </Container>
+        <Location />
+        <Footer />
       </Box>
     </>
   );

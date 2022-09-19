@@ -5,7 +5,7 @@ import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()((theme) => ({
   banner: {
     alignItems: 'center',
-    backgroundImage: 'url(/images/Banner.jpg)',
+    backgroundImage: 'url(images/Banner.jpg)',
     backgroundPosition: '100%',
     backgroundRepeat: 'no-repeat',
   },

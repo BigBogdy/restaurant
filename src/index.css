@@ -8,3 +8,6 @@
 .flash:hover * {
   fill: #79B282;
 }
+.mapboxgl-control-container {
+  display: none
+}

@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { Container } from '@mui/system';
 import { makeStyles } from 'tss-react/mui';
+import useInput from './useInput';
 
 const useStyles = makeStyles()((theme) => ({
   input: {
@@ -34,6 +35,8 @@ const useStyles = makeStyles()((theme) => ({
 
 const Header = () => {
   const { classes } = useStyles();
+  const address = useInput('');
+
   return (
     <AppBar
       color="primary"
@@ -63,7 +66,12 @@ const Header = () => {
           </Typography>
           <TextField
             placeholder="Введите адрес доставки"
-            sx={{ color: 'white', mr: 3.75 }}
+            {...address}
+            sx={{
+              color: 'white',
+              mr: 3.75,
+              position: 'relative',
+            }}
             className={classes.input}
             variant="standard"
             InputProps={{
@@ -77,7 +85,7 @@ const Header = () => {
                       marginRight: 10,
                       cursor: 'default',
                     }}
-                    src="images/Location.svg"
+                    src="../images/Location.svg"
                     alt="location"
                   />
                 </InputAdornment>
@@ -86,13 +94,46 @@ const Header = () => {
                 <InputAdornment position="end">
                   <img
                     style={{ width: 24, height: 24, cursor: 'default' }}
-                    src="/images/Search.svg"
+                    src="../images/Search.svg"
                     alt="search"
                   />
                 </InputAdornment>
               ),
             }}
           />
+          {address.suggestions?.length > 0 && (
+            <Box
+              sx={{
+                bgcolor: '#504B4A',
+                position: 'absolute',
+                width: 512.88,
+                margin: '172px 0px 0px 168px',
+                padding: '10px 20px',
+                height: 100,
+                overflowY: 'scroll',
+                // border-radius: 10px 10px 0px 0px
+              }}
+            >
+              {address.suggestions.map((suggestion, i) => (
+                <Typography
+                  sx={{
+                    cursor: 'pointer',
+                    mb: 0.5,
+                    '&:hover': {
+                      color: 'white',
+                    },
+                  }}
+                  key={i}
+                  onClick={() => {
+                    address.setValue(suggestion.place_name);
+                    address.setSuggestion([]);
+                  }}
+                >
+                  {suggestion.place_name}
+                </Typography>
+              ))}
+            </Box>
+          )}
           <Box
             sx={{
               borderRadius: '50%',
@@ -109,7 +150,7 @@ const Header = () => {
                 height: 16,
                 margin: '9px 8px 7px',
               }}
-              src="/images/Calling.svg"
+              src="../images/Calling.svg"
               alt="call"
             />
           </Box>

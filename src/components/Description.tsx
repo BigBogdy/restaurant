@@ -18,6 +18,8 @@ const useStyles = makeStyles()((theme) => ({
     backgroundImage: 'url(/images/Banner2.jpg)',
     backgroundPosition: '100%',
     backgroundRepeat: 'no-repeat',
+    position: 'relative',
+    zIndex: 10,
   },
   card: {
     backdropFilter: 'blur(10px)',
@@ -60,82 +62,84 @@ const Description = () => {
   const { classes } = useStyles();
   return (
     <>
-      <Box className={classes.banner} sx={{ height: 610 }}>
-        <Box sx={{ mt: 12.375, display: 'flex' }}>
-          <Box
-            sx={{
-              height: 610,
-              padding: '0 20px',
-              background:
-                'linear-gradient(90deg,#1b1b1b 60%,rgba(28,28,28,.73) 80%,rgba(25,25,25,0))',
-              width: '70%',
-              marginRight: 3.5,
-            }}
-          >
-            <Typography
-              variant="body2"
-              fontSize={32}
+      <Box>
+        <Box className={classes.banner} sx={{ height: 610 }}>
+          <Box sx={{ mt: 12.375, display: 'flex' }}>
+            <Box
               sx={{
-                letterSpacing: 0,
-                lineHeight: 'normal',
-                padding: '100px 0px 0px 70px',
+                height: 610,
+                padding: '0 20px',
+                background:
+                  'linear-gradient(90deg,#1b1b1b 60%,rgba(28,28,28,.73) 80%,rgba(25,25,25,0))',
+                width: '70%',
+                marginRight: 3.5,
               }}
             >
-              НАШЕ КАФЕ
-            </Typography>
-            <Typography
-              fontSize={20}
-              variant="body1"
-              sx={{
-                color: '#CFCFCF',
-                lineHeight: 'normal',
-                width: 563,
-                padding: '26px 0px 60px 70px',
-                margin: 0,
-              }}
-            >
-              Мы расположены в одном из самых живописных мест города — на берегу
-              реки, это ваш оазис в черте города, куда можно сбежать от шумного
-              и пыльного мегаполиса. Мы, действительно уникальные, ведь все
-              продумано до мелочей: проект построен из дикого закарпатского
-              сруба, камин в основном зале ресторана и панорамные окна с видом
-              на реку, уютные беседки на берегу реки и лучшая видовая террасса,
-              шатер с посадкой на 200 человек, сказочный детский домик и
-              бассейн.
-            </Typography>
-            <Button className={classes.btn}>ПОСМОТРЕТЬ МЕНЮ</Button>
-          </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Grid container spacing={2}>
-              {cards.map((item, i) => (
-                <Grid item key={i}>
-                  <Card className={classes.card}>
-                    <Typography
-                      variant="h1"
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      {item.imageUrl}
-                    </Typography>
-                    <Typography
-                      variant="h2"
-                      sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        fontFamily: 'Gilroy',
-                        fontSize: 18,
-                        fontWeight: 400,
-                        color: 'white',
-                      }}
-                    >
-                      {item.text}
-                    </Typography>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
+              <Typography
+                variant="body2"
+                fontSize={32}
+                sx={{
+                  letterSpacing: 0,
+                  lineHeight: 'normal',
+                  padding: '100px 0px 0px 70px',
+                }}
+              >
+                НАШЕ КАФЕ
+              </Typography>
+              <Typography
+                fontSize={20}
+                variant="body1"
+                sx={{
+                  color: '#CFCFCF',
+                  lineHeight: 'normal',
+                  width: 563,
+                  padding: '26px 0px 60px 70px',
+                  margin: 0,
+                }}
+              >
+                Мы расположены в одном из самых живописных мест города — на
+                берегу реки, это ваш оазис в черте города, куда можно сбежать от
+                шумного и пыльного мегаполиса. Мы, действительно уникальные,
+                ведь все продумано до мелочей: проект построен из дикого
+                закарпатского сруба, камин в основном зале ресторана и
+                панорамные окна с видом на реку, уютные беседки на берегу реки и
+                лучшая видовая террасса, шатер с посадкой на 200 человек,
+                сказочный детский домик и бассейн.
+              </Typography>
+              <Button className={classes.btn}>ПОСМОТРЕТЬ МЕНЮ</Button>
+            </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Grid container spacing={2}>
+                {cards.map((item, i) => (
+                  <Grid item key={i}>
+                    <Card className={classes.card}>
+                      <Typography
+                        variant="h1"
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {item.imageUrl}
+                      </Typography>
+                      <Typography
+                        variant="h2"
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          fontFamily: 'Gilroy',
+                          fontSize: 18,
+                          fontWeight: 400,
+                          color: 'white',
+                        }}
+                      >
+                        {item.text}
+                      </Typography>
+                    </Card>
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
           </Box>
         </Box>
       </Box>
