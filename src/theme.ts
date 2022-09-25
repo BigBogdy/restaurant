@@ -25,6 +25,7 @@ export const theme = createTheme({
             lineHeight: 0,
             display: 'flex',
             justifyContent: 'start',
+            minWidth: 0,
           },
         },
       ],

@@ -3,6 +3,40 @@ import { Box, Container } from '@mui/system';
 import { Button, Grid, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
+const useStyles = makeStyles()((theme) => ({
+  card: {
+    background: '#494544',
+    borderRadius: 2.5,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    minHeight: 385,
+    width: 325,
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    '&:hover': {
+      filter: 'drop-shadow(0px 30px 60px rgba(43, 40, 40, 0.6))',
+      transform: 'translateY(-5px)',
+    },
+  },
+  image: {
+    borderRadius: '10px 10px 0px 0px',
+    height: 227,
+    marginBottom: 15,
+    width: 325,
+  },
+  btn: {
+    display: 'flex',
+    height: 44,
+    justifyContent: 'center',
+    width: 137,
+    '& .MuiButton-endIcon': {
+      marginLeft: 0,
+      marginRight: 0,
+    },
+  },
+}));
+
 type DishCardProps = {
   imageUrl: string;
   title: string;
@@ -16,29 +50,11 @@ const DishCard: FC<DishCardProps> = ({
   price,
   description,
 }) => {
+  const { classes } = useStyles();
   return (
     <>
-      <Box
-        sx={{
-          width: 325,
-          minHeight: 385,
-          background: '#494544',
-          borderRadius: 2.5,
-          display: 'flex',
-          flexDirection: 'column',
-          height: '100%',
-        }}
-      >
-        <img
-          style={{
-            width: 325,
-            height: 227,
-            marginBottom: 15,
-            borderRadius: '10px 10px 0px 0px',
-          }}
-          src={imageUrl}
-          alt="img"
-        />
+      <Box className={classes.card}>
+        <img className={classes.image} src={imageUrl} alt="img" />
         <Box sx={{ pl: 2.5, flex: '1 0 auto' }}>
           <Typography
             variant="body2"
@@ -68,16 +84,7 @@ const DishCard: FC<DishCardProps> = ({
             {price} ₽
           </Typography>
           <Button
-            sx={{
-              width: 137,
-              height: 44,
-              display: 'flex',
-              justifyContent: 'center',
-              '& .MuiButton-endIcon': {
-                marginLeft: 0,
-                marginRight: 0,
-              },
-            }}
+            className={classes.btn}
             endIcon={
               <img
                 src="/images/Cart.svg"

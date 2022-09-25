@@ -9,8 +9,8 @@ import {
   Box,
 } from '@mui/material';
 import { Container } from '@mui/system';
+import { useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
-import useInput from './useInput';
 
 const useStyles = makeStyles()((theme) => ({
   input: {
@@ -25,18 +25,51 @@ const useStyles = makeStyles()((theme) => ({
         outline: 'none',
       },
     },
+    marginRight: 30,
+    position: 'relative',
     '& > div': {
       borderRadius: 10,
       backgroundColor: '#504B4A',
       padding: 14,
     },
   },
+  suggestionBox: {
+    backgroundColor: '#504B4A',
+    position: 'absolute',
+    width: 513,
+    margin: '172px 0px 0px 168px',
+    padding: '10px 20px',
+    height: 100,
+    overflowY: 'scroll',
+    borderRadius: '0px 0px 5px 5px',
+    '::-webkit-scrollbar': {
+      width: 6,
+    },
+    '::-webkit-scrollbar-thumb': {
+      backgroundColor: 'white',
+      borderRadius: 10,
+      boxShadow: 'inset 0 0 6px rgba(0, 0, 0, 0.3)',
+    },
+  },
 }));
 
 const Header = () => {
   const { classes } = useStyles();
-  const address = useInput('');
+  const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value);
+    try {
+      const endpoint = `https://api.mapbox.com/geocoding/v5/mapbox.places/${event.target.value}.json?access_token=pk.eyJ1IjoiYm9nZHVuMTciLCJhIjoiY2w4NG5sdHUzMDFvZDQwbzdvZm1nMnRiYyJ9.07cbj43Gix79lTCsYyao5Q&autocomplete=true`;
+      const response = await fetch(endpoint);
+      const results = await response.json();
+      setSuggestions(results?.features);
+    } catch (error) {
+      console.log('Error fetching data', error);
+    }
+  };
+  // console.log(suggestions);
   return (
     <AppBar
       color="primary"
@@ -65,12 +98,15 @@ const Header = () => {
             LOGOS
           </Typography>
           <TextField
+            onChange={handleChange}
+            value={value}
             placeholder="Введите адрес доставки"
-            {...address}
             sx={{
-              color: 'white',
-              mr: 3.75,
-              position: 'relative',
+              ...(suggestions?.length > 0 && {
+                '.MuiInputBase-root': {
+                  borderRadius: '10px 10px 0px 0px',
+                },
+              }),
             }}
             className={classes.input}
             variant="standard"
@@ -83,7 +119,7 @@ const Header = () => {
                       width: 24,
                       height: 24,
                       marginRight: 10,
-                      cursor: 'default',
+                      cursor: 'pointer',
                     }}
                     src="../images/Location.svg"
                     alt="location"
@@ -93,7 +129,11 @@ const Header = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <img
-                    style={{ width: 24, height: 24, cursor: 'default' }}
+                    style={{
+                      width: 24,
+                      height: 24,
+                      cursor: 'pointer',
+                    }}
                     src="../images/Search.svg"
                     alt="search"
                   />
@@ -101,20 +141,9 @@ const Header = () => {
               ),
             }}
           />
-          {address.suggestions?.length > 0 && (
-            <Box
-              sx={{
-                bgcolor: '#504B4A',
-                position: 'absolute',
-                width: 512.88,
-                margin: '172px 0px 0px 168px',
-                padding: '10px 20px',
-                height: 100,
-                overflowY: 'scroll',
-                // border-radius: 10px 10px 0px 0px
-              }}
-            >
-              {address.suggestions.map((suggestion, i) => (
+          {suggestions?.length > 0 && (
+            <Box className={classes.suggestionBox}>
+              {suggestions.map((suggestion: any, i) => (
                 <Typography
                   sx={{
                     cursor: 'pointer',
@@ -125,8 +154,8 @@ const Header = () => {
                   }}
                   key={i}
                   onClick={() => {
-                    address.setValue(suggestion.place_name);
-                    address.setSuggestion([]);
+                    setValue(suggestion.place_name);
+                    setSuggestions([]);
                   }}
                 >
                   {suggestion.place_name}

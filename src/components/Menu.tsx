@@ -8,7 +8,6 @@ import { Dishes } from './types';
 
 const useStyles = makeStyles()((theme) => ({
   tabText: {
-    '&:not(:last-child)': {},
     fontFamily: 'Gilroy',
     paddingBottom: 26,
     color: '#CFCFCF',
@@ -134,7 +133,7 @@ const Menu: FC = () => {
         </TabPanel>
       ))}
       <Box>
-        <Grid container spacing={2}>
+        <Grid container spacing={2.5}>
           {dishes.map((item) => (
             <Grid item key={item.id}>
               <DishCard
