@@ -10,7 +10,9 @@ import {
 } from '@mui/material';
 import { Container } from '@mui/system';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles()((theme) => ({
   input: {
@@ -54,6 +56,11 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const Header = () => {
+  const { products } = useSelector((state: any) => state.cart);
+  const totalProducts = products.reduce(
+    (sum: any, item: any) => sum + item.count,
+    0
+  );
   const { classes } = useStyles();
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -69,7 +76,7 @@ const Header = () => {
       console.log('Error fetching data', error);
     }
   };
-  // console.log(suggestions);
+
   return (
     <AppBar
       color="primary"
@@ -81,22 +88,21 @@ const Header = () => {
     >
       <Container maxWidth={false} sx={{ maxWidth: 1320 }}>
         <Toolbar disableGutters>
-          <Typography
-            variant="body2"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 9,
-              fontWeight: 700,
-              letterSpacing: '0.15rem',
-              color: 'inherit',
-              textDecoration: 'none',
-              fontSize: 25,
-            }}
-          >
-            LOGOS
-          </Typography>
+          <Link to={'/'} style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography
+              variant="body2"
+              noWrap
+              component="a"
+              sx={{
+                mr: 9,
+                fontWeight: 700,
+                letterSpacing: '0.15rem',
+                fontSize: 25,
+              }}
+            >
+              LOGOS
+            </Typography>
+          </Link>
           <TextField
             onChange={handleChange}
             value={value}
@@ -187,53 +193,56 @@ const Header = () => {
             <Typography variant="body1" fontSize={12}>
               Контакты
             </Typography>
-            <Typography variant="body2" fontSize={16} sx={{ minWidth: 136 }}>
-              +7 (917) 510-57-59
+            <Typography variant="body2" fontSize={16} sx={{ minWidth: 200 }}>
+              +380 (50) 830-50-25
             </Typography>
           </Box>
-          <Button
-            variant="text"
-            sx={{
-              padding: '7px 14px 7px 24px',
-              width: 155,
-              height: 52,
-            }}
-          >
-            Корзина
-            <Divider
-              orientation="vertical"
-              flexItem
+          <Link to={'/cart'} style={{ textDecoration: 'none' }}>
+            <Button
+              onClick={() => console.log()}
+              variant="text"
               sx={{
-                border: '1px solid rgba(255, 255, 255, 0.3)',
-                height: 36,
-                ml: 2.5,
-                mr: 1.5,
-              }}
-            />
-            <Box
-              sx={{
-                width: 24,
-                height: 24,
-                bgcolor: '#fff',
-                borderRadius: '50%',
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
+                padding: '7px 14px 7px 24px',
+                width: 155,
+                height: 52,
               }}
             >
-              <Typography
+              Корзина
+              <Divider
+                orientation="vertical"
+                flexItem
                 sx={{
-                  color: 'black',
-                  fontFamily: 'Gilroy',
-                  fontSize: 12,
-                  fontWeight: 600,
-                  lineHeight: 'normal',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  height: 36,
+                  ml: 2.5,
+                  mr: 1.5,
+                }}
+              />
+              <Box
+                sx={{
+                  width: 24,
+                  height: 24,
+                  bgcolor: '#fff',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
-                4
-              </Typography>
-            </Box>
-          </Button>
+                <Typography
+                  sx={{
+                    color: 'black',
+                    fontFamily: 'Gilroy',
+                    fontSize: 12,
+                    fontWeight: 600,
+                    lineHeight: 'normal',
+                  }}
+                >
+                  {totalProducts}
+                </Typography>
+              </Box>
+            </Button>
+          </Link>
         </Toolbar>
       </Container>
     </AppBar>

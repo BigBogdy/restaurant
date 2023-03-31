@@ -40,7 +40,8 @@ export const theme = createTheme({
     body2: {
       fontFamily: 'Gilroy',
       fontWeight: 700,
-      color: 'white',
+      color: '#fff',
+      fontSize: 16,
     },
     // h3: {
     //   fontFamily: 'Gilroy',

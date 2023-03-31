@@ -1,5 +1,5 @@
 import { Grid, Tab, Tabs, Typography } from '@mui/material';
-import { Box, Container } from '@mui/system';
+import { Box } from '@mui/system';
 import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import DishCard from './DishCard';
@@ -58,6 +58,7 @@ const Menu: FC = () => {
   const { classes } = useStyles();
   const [dishes, setDishes] = useState<Dishes[]>([]);
   const [categoryId, setCategoryId] = useState(0);
+
   useEffect(() => {
     fetchDishes();
   }, [categoryId]);
@@ -126,6 +127,7 @@ const Menu: FC = () => {
               borderLeft: '5px solid #618967',
               height: 40,
               pl: 2,
+              textTransform: 'uppercase',
             }}
           >
             {item.name}
@@ -137,6 +139,7 @@ const Menu: FC = () => {
           {dishes.map((item) => (
             <Grid item key={item.id}>
               <DishCard
+                id={item.id}
                 imageUrl={item.imageUrl}
                 title={item.title}
                 price={item.price}

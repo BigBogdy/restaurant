@@ -13,7 +13,6 @@ const MapLocation = () => {
         style={{
           height: 665,
           width: 1360,
-          marginTop: -175,
           borderRadius: 25,
         }}
         mapboxAccessToken="pk.eyJ1IjoiYm9nZHVuMTciLCJhIjoiY2w4NG5sdHUzMDFvZDQwbzdvZm1nMnRiYyJ9.07cbj43Gix79lTCsYyao5Q"
