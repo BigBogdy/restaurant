@@ -1,12 +1,13 @@
 import { Box, Button, Container, Typography } from '@mui/material';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 import CartAddItem from '../components/CartAddItem';
 import CartItem from '../components/CartItem';
-import CartList from '../components/CartItem';
 import CartTotal from '../components/CartTotal';
+import { Dishes } from '../components/types';
 import { clearProduct } from '../redux/slices/cartSlice';
 
 const useStyles = makeStyles()((theme) => ({
@@ -41,6 +42,21 @@ const useStyles = makeStyles()((theme) => ({
 
 const Cart = () => {
   const { classes } = useStyles();
+  const [dishes, setDishes] = useState<Dishes[]>([]);
+
+  useEffect(() => {
+    async function fetchDishes() {
+      try {
+        const response = await axios.get<Dishes[]>(
+          'https://62f52077535c0c50e76a5f03.mockapi.io/dishes'
+        );
+        setDishes(response.data.sort(() => Math.random() - 0.5).slice(0, 4));
+      } catch (error) {
+        alert(error);
+      }
+    }
+    fetchDishes();
+  }, []);
 
   const products: any = useSelector((state: any) => state.cart.products);
   const dispatch = useDispatch();
@@ -106,11 +122,10 @@ const Cart = () => {
           >
             Добавить к заказу
           </Typography>
-          <Box sx={{ display: 'flex' }}>
-            <CartAddItem />
-            <CartAddItem />
-            <CartAddItem />
-            <CartAddItem />
+          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            {dishes.map((item: any) => (
+              <CartAddItem {...item} key={item.id} />
+            ))}
           </Box>
           <CartTotal />
         </Box>

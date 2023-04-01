@@ -138,14 +138,7 @@ const Menu: FC = () => {
         <Grid container spacing={2.5}>
           {dishes.map((item) => (
             <Grid item key={item.id}>
-              <DishCard
-                id={item.id}
-                imageUrl={item.imageUrl}
-                title={item.title}
-                price={item.price}
-                category={item.category}
-                description={item.description}
-              />
+              <DishCard {...item} />
             </Grid>
           ))}
         </Grid>

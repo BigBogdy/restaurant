@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+import { useDispatch } from 'react-redux';
+import { addProduct } from '../redux/slices/cartSlice';
 
 const useStyles = makeStyles()((theme) => ({
   image: {
@@ -9,8 +11,12 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const AddItemCart = () => {
+const AddItemCart = ({ id, imageUrl, title, price, description }: any) => {
   const { classes } = useStyles();
+  const dispatch = useDispatch();
+  const onClickPlus = () => {
+    dispatch(addProduct({ id, imageUrl, title, price, description }));
+  };
 
   return (
     <>
@@ -30,11 +36,7 @@ const AddItemCart = () => {
         >
           <Box>
             <Box>
-              <img
-                className={classes.image}
-                src={'/images/dishes/cold/2.png'}
-                alt="img"
-              />
+              <img className={classes.image} src={imageUrl} alt="img" />
             </Box>
             <Typography
               sx={{
@@ -44,13 +46,16 @@ const AddItemCart = () => {
                 fontWeight: 700,
                 color: '#fff',
                 mt: 1,
+
+                overflow: 'hidden',
               }}
             >
-              Индейка
+              {title}
             </Typography>
             <Box sx={{ display: 'flex', justifyContent: 'center' }}>
               <Typography sx={{ mr: 1 }}>Добавить</Typography>
               <Button
+                onClick={onClickPlus}
                 sx={{
                   borderRadius: '50%',
                   fontSize: 16,
@@ -60,7 +65,7 @@ const AddItemCart = () => {
               </Button>
             </Box>
             <Typography sx={{ display: 'flex', justifyContent: 'center' }}>
-              500 ₴
+              {price} ₴
             </Typography>
           </Box>
         </Box>

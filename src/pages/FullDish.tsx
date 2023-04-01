@@ -8,8 +8,9 @@ import { Container, Card } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { Dishes } from '../components/types';
 import DishCard from '../components/DishCard';
-import { useNavigate } from 'react-router-dom';
 import ContactCard from '../components/ContactCard';
+import { addProduct } from '../redux/slices/cartSlice';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles()((theme) => ({
   card: {
@@ -23,11 +24,12 @@ const useStyles = makeStyles()((theme) => ({
 
 const FullDish: FC = () => {
   const { classes } = useStyles();
+
+  const dispatch = useDispatch();
+
   const { id } = useParams();
   const [dish, setDish] = useState<Dishes | null>(null);
   const [dishes, setDishes] = useState<Dishes[]>([]);
-
-  let navigate = useNavigate();
 
   useEffect(() => {
     async function fetchDishes() {
@@ -42,6 +44,10 @@ const FullDish: FC = () => {
     }
     fetchDishes();
   }, []);
+
+  const onClickPlus = () => {
+    dispatch(addProduct(dish));
+  };
 
   useEffect(() => {
     async function fetchDish() {
@@ -59,7 +65,7 @@ const FullDish: FC = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [navigate]);
+  }, []);
 
   if (!dish) {
     return <Typography sx={{ mt: 20 }}>Loading...</Typography>;
@@ -113,15 +119,16 @@ const FullDish: FC = () => {
                   </Typography>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button
+                      onClick={onClickPlus}
                       variant="text"
                       sx={{
                         padding: '7px 14px 7px 24px',
-                        width: 155,
+                        width: 160,
                         height: 52,
                         mr: 3.125,
                       }}
                     >
-                      Корзина
+                      В корзину
                       <Divider
                         orientation="vertical"
                         flexItem
@@ -159,19 +166,8 @@ const FullDish: FC = () => {
           </Typography>
           <Box sx={{ display: 'flex' }}>
             {dishesWithSameCategory.map((item) => (
-              <Box
-                onClick={() => navigate(`/dish/${item.id}`)}
-                key={item.id}
-                sx={{ mr: 2 }}
-              >
-                <DishCard
-                  id={item.id}
-                  imageUrl={item.imageUrl}
-                  title={item.title}
-                  price={item.price}
-                  category={item.category}
-                  description={item.description}
-                />
+              <Box key={item.id} sx={{ mr: 2 }}>
+                <DishCard {...item} />
               </Box>
             ))}
           </Box>
