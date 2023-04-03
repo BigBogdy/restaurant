@@ -1,10 +1,9 @@
 import { Box, Button, Container, Typography } from '@mui/material';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from 'tss-react/mui';
 import {
   addProduct,
-  clearProduct,
   minusProduct,
   removeProduct,
 } from '../redux/slices/cartSlice';

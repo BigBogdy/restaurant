@@ -26,6 +26,10 @@ export const theme = createTheme({
             display: 'flex',
             justifyContent: 'start',
             minWidth: 0,
+            ':hover': {
+              backgroundColor: '#618967',
+              boxShadow: '0 5px 10px 0px rgba(113, 202, 146, 0.4)',
+            },
           },
         },
       ],
@@ -43,10 +47,5 @@ export const theme = createTheme({
       color: '#fff',
       fontSize: 16,
     },
-    // h3: {
-    //   fontFamily: 'Gilroy',
-    //   fontWeight: 600,
-    //   color: 'white',
-    // },
   },
 });

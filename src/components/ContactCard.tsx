@@ -2,14 +2,7 @@ import React from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import {
-  Typography,
-  Box,
-  Card,
-  Divider,
-  Button,
-  Container,
-} from '@mui/material';
+import { Typography, Box, Card, Divider, Button } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 
 const useStyles = makeStyles()((theme) => ({
@@ -107,7 +100,7 @@ const ContactCard = () => {
               },
             }}
           >
-            +7 (917) 510-57-59
+            +380 (50) 830-50-25
           </Typography>
           <Typography fontSize={13}>Звоните или оставляйте заявку</Typography>
         </Box>

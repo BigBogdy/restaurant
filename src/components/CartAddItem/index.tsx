@@ -1,8 +1,8 @@
 import React from 'react';
-import { Box, Button, Container, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../redux/slices/cartSlice';
+import { addProduct } from '../../redux/slices/cartSlice';
 
 const useStyles = makeStyles()((theme) => ({
   image: {
@@ -40,19 +40,19 @@ const AddItemCart = ({ id, imageUrl, title, price, description }: any) => {
             </Box>
             <Typography
               sx={{
+                mb: 1.25,
                 display: 'flex',
                 justifyContent: 'center',
                 fontSize: 16,
                 fontWeight: 700,
                 color: '#fff',
                 mt: 1,
-
                 overflow: 'hidden',
               }}
             >
               {title}
             </Typography>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', mb: 1 }}>
               <Typography sx={{ mr: 1 }}>Добавить</Typography>
               <Button
                 onClick={onClickPlus}

@@ -5,6 +5,10 @@ import { makeStyles } from 'tss-react/mui';
 import DishCard from './DishCard';
 import axios from 'axios';
 import { Dishes } from './types';
+import SkeletonDishCard from './DishCard/SkeletonDishCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '../redux/store';
+import { fetchDishes } from '../redux/slices/dishesSlice';
 
 const useStyles = makeStyles()((theme) => ({
   tabText: {
@@ -33,7 +37,6 @@ const menuList = [
   { id: 7, name: 'Напитки' },
 ];
 
-//@ts-"id"nore
 const TabPanel = (props: any) => {
   const { children, value, index, ...other } = props;
 
@@ -56,24 +59,16 @@ const TabPanel = (props: any) => {
 
 const Menu: FC = () => {
   const { classes } = useStyles();
-  const [dishes, setDishes] = useState<Dishes[]>([]);
+
+  const dispatch = useDispatch<AppDispatch>();
+  // const [dishes, setDishes] = useState<Dishes[]>([]);
+  const { products, status } = useSelector((state: any) => state.dishes);
   const [categoryId, setCategoryId] = useState(0);
 
   useEffect(() => {
-    fetchDishes();
+    dispatch(fetchDishes(categoryId));
   }, [categoryId]);
 
-  async function fetchDishes() {
-    try {
-      const response = await axios.get<Dishes[]>(
-        'https://62f52077535c0c50e76a5f03.mockapi.io/dishes?category=' +
-          categoryId
-      );
-      setDishes(response.data);
-    } catch (error) {
-      alert(error);
-    }
-  }
   const [value, setValue] = useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -136,11 +131,17 @@ const Menu: FC = () => {
       ))}
       <Box>
         <Grid container spacing={2.5}>
-          {dishes.map((item) => (
-            <Grid item key={item.id}>
-              <DishCard {...item} />
-            </Grid>
-          ))}
+          {status === 'loading'
+            ? [...new Array(4)].map((_, index) => (
+                <Grid item key={index}>
+                  <SkeletonDishCard />
+                </Grid>
+              ))
+            : products.map((item: any) => (
+                <Grid item key={item.id}>
+                  <DishCard {...item} />
+                </Grid>
+              ))}
         </Grid>
       </Box>
     </Box>

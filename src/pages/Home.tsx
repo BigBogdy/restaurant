@@ -4,7 +4,6 @@ import Description from '../components/Description';
 import Menu from '../components/Menu';
 import { Container } from '@mui/system';
 import Location from '../components/Location';
-import Footer from '../components/Footer';
 
 const Home = () => {
   return (

@@ -1,17 +1,17 @@
 import React, { FC } from 'react';
-import { Box, Container } from '@mui/system';
-import { Button, Grid, Typography } from '@mui/material';
+import { Box } from '@mui/system';
+import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, minusProduct } from '../redux/slices/cartSlice';
+import { addProduct, minusProduct } from '../../redux/slices/cartSlice';
 
 const useStyles = makeStyles()((theme) => ({
   card: {
     background: '#494544',
     position: 'relative',
-    borderRadius: '10px 10px 0px 0px',
+    borderRadius: '10px',
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
@@ -124,7 +124,6 @@ const DishCard: FC<DishCardProps> = ({
           </Typography>
           <Typography fontSize={13}>{description}</Typography>
         </Box>
-
         <Box
           sx={{
             flex: '0 0 auto',

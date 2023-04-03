@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container } from '@mui/system';
+import { Box } from '@mui/system';
 import { makeStyles } from 'tss-react/mui';
 import { Typography, Button, Card, Grid } from '@mui/material';
 import { ReactComponent as Flash } from '../Flash.svg';

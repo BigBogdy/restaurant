@@ -9,6 +9,7 @@ import CartItem from '../components/CartItem';
 import CartTotal from '../components/CartTotal';
 import { Dishes } from '../components/types';
 import { clearProduct } from '../redux/slices/cartSlice';
+import SkeletonCartAddItem from '../components/CartAddItem/SkeletonCartAddItem';
 
 const useStyles = makeStyles()((theme) => ({
   btnBack: {
@@ -43,6 +44,7 @@ const useStyles = makeStyles()((theme) => ({
 const Cart = () => {
   const { classes } = useStyles();
   const [dishes, setDishes] = useState<Dishes[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchDishes() {
@@ -51,6 +53,7 @@ const Cart = () => {
           'https://62f52077535c0c50e76a5f03.mockapi.io/dishes'
         );
         setDishes(response.data.sort(() => Math.random() - 0.5).slice(0, 4));
+        setLoading(false);
       } catch (error) {
         alert(error);
       }
@@ -122,10 +125,10 @@ const Cart = () => {
           >
             Добавить к заказу
           </Typography>
-          <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-            {dishes.map((item: any) => (
-              <CartAddItem {...item} key={item.id} />
-            ))}
+          <Box sx={{ display: 'flex' }}>
+            {loading
+              ? [...new Array(4)].map((_, index) => <SkeletonCartAddItem />)
+              : dishes.map((item) => <CartAddItem key={item.id} {...item} />)}
           </Box>
           <CartTotal />
         </Box>
