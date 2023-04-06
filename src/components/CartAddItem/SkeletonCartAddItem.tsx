@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const SkeletonCartAddItem = (props: any) => (
+const SkeletonCartAddItem = () => (
   <ContentLoader
     speed={2}
     width={275}
@@ -9,7 +9,6 @@ const SkeletonCartAddItem = (props: any) => (
     viewBox="0 0 234 275"
     backgroundColor="#C0C0C0"
     foregroundColor="#CCCCCC"
-    {...props}
   >
     <rect x="0" y="0" rx="10" ry="10" width="220" height="123" />
     <rect x="35" y="133" rx="10" ry="10" width="137" height="17" />

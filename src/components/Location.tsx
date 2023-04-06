@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box, Container } from '@mui/material';
 import MapLocation from './MapLocation';
 import ContactCard from './ContactCard';
 
-const Location = () => {
+const Location: FC = () => {
   return (
     <>
       <Container maxWidth={false} sx={{ maxWidth: 1600 }}>

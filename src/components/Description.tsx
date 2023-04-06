@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box } from '@mui/system';
 import { makeStyles } from 'tss-react/mui';
 import { Typography, Button, Card, Grid } from '@mui/material';
@@ -58,7 +58,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const Description = () => {
+const Description: FC = () => {
   const { classes } = useStyles();
   return (
     <>

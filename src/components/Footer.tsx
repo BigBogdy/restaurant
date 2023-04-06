@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { makeStyles } from 'tss-react/mui';
 import { Typography, Box, Grid } from '@mui/material';
 import { Container } from '@mui/system';
+
+type helpItemList = {
+  id: number;
+  text: string;
+};
 
 const helpList = [
   { id: 0, text: 'О ресторане' },
@@ -27,7 +32,7 @@ const useStyles = makeStyles()((theme) => ({
     marginBottom: 5,
   },
 }));
-const Footer = () => {
+const Footer: FC = () => {
   const { classes } = useStyles();
 
   const scrollUp = () => {
@@ -36,6 +41,7 @@ const Footer = () => {
       behavior: 'smooth',
     });
   };
+
   return (
     <>
       <Container maxWidth={false} sx={{ maxWidth: 1320 }}>
@@ -97,7 +103,7 @@ const Footer = () => {
             </Typography>
           </Box>
           <Grid container spacing={5} sx={{ alignItems: 'center' }}>
-            {helpList.map((item) => (
+            {helpList.map((item: helpItemList) => (
               <Grid key={item.id} item>
                 <Typography
                   variant="body2"

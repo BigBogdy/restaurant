@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -29,7 +29,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const ContactCard = () => {
+const ContactCard: FC = () => {
   const { classes } = useStyles();
   return (
     <Card className={classes.card}>

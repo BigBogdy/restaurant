@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const SkeletonFullDish = (props: any) => (
+const SkeletonFullDish = () => (
   <ContentLoader
     speed={2}
     width={3000}
@@ -10,7 +10,6 @@ const SkeletonFullDish = (props: any) => (
     viewBox="0 0 3000 500"
     backgroundColor="#C0C0C0"
     foregroundColor="#CCCCCC"
-    {...props}
   >
     <rect x="0" y="0" rx="10" ry="10" width="1210" height="399" />
   </ContentLoader>

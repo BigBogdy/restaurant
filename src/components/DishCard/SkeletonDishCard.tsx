@@ -1,7 +1,7 @@
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const SkeletonDishCard = (props: any) => (
+const SkeletonDishCard = () => (
   <ContentLoader
     speed={2}
     width={310}
@@ -9,7 +9,6 @@ const SkeletonDishCard = (props: any) => (
     viewBox="0 0 325 400"
     backgroundColor="#C0C0C0"
     foregroundColor="#CCCCCC"
-    {...props}
   >
     <rect x="4" y="4" rx="10" ry="10" width="320" height="227" />
     <rect x="15" y="248" rx="10" ry="10" width="48" height="27" />

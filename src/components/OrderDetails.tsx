@@ -8,7 +8,7 @@ import {
   MenuItem,
   SelectChangeEvent,
 } from '@mui/material';
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import { MuiTelInput } from 'mui-tel-input';
 
@@ -62,13 +62,13 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const OrderDertails = () => {
+const OrderDertails: FC = () => {
   const [value, setValue] = useState('');
   const [address, setAddress] = useState('1');
 
-  const [deliveryType, setDeliveryType] = useState('delivery');
-  const [paymentType, setPaymentType] = useState('cash');
-  const [deliveryTime, setDeliveryTime] = useState('asap');
+  const [deliveryType, setDeliveryType] = useState<string>('delivery');
+  const [paymentType, setPaymentType] = useState<string>('cash');
+  const [deliveryTime, setDeliveryTime] = useState<string>('asap');
 
   const handleChange = (newValue: string) => {
     setValue(newValue);

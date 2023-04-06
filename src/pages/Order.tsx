@@ -1,5 +1,5 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 import OrderDertails from '../components/OrderDetails';
@@ -41,7 +41,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const Order = () => {
+const Order: FC = () => {
   const { classes } = useStyles();
   return (
     <>

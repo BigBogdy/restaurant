@@ -9,10 +9,12 @@ import {
   Box,
 } from '@mui/material';
 import { Container } from '@mui/system';
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 import { useSelector } from 'react-redux';
+import { selectCart } from '../redux/cart/slice';
+import { Dish } from './types';
 
 const useStyles = makeStyles()((theme) => ({
   input: {
@@ -55,10 +57,10 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const Header = () => {
-  const { products } = useSelector((state: any) => state.cart);
+const Header: FC = () => {
+  const { products } = useSelector(selectCart);
   const totalProducts = products.reduce(
-    (sum: any, item: any) => sum + item.count,
+    (sum: number, item: Dish) => sum + item.count,
     0
   );
   const { classes } = useStyles();
@@ -92,7 +94,6 @@ const Header = () => {
             <Typography
               variant="body2"
               noWrap
-              component="a"
               sx={{
                 mr: 9,
                 fontWeight: 700,

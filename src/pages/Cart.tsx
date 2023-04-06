@@ -1,15 +1,16 @@
-import { Box, Button, Container, Typography } from '@mui/material';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
 import CartAddItem from '../components/CartAddItem';
 import CartItem from '../components/CartItem';
 import CartTotal from '../components/CartTotal';
-import { Dishes } from '../components/types';
-import { clearProduct } from '../redux/slices/cartSlice';
+import { clearProduct, selectCart } from '../redux/cart/slice';
 import SkeletonCartAddItem from '../components/CartAddItem/SkeletonCartAddItem';
+import { fetchDishesRandomly } from '../redux/dishes/slice';
+import { AppDispatch, RootState } from '../redux/store';
+import CartEmpty from '../components/CartEmpty';
 
 const useStyles = makeStyles()((theme) => ({
   btnBack: {
@@ -41,28 +42,18 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const Cart = () => {
+const Cart: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { products } = useSelector(selectCart);
+  const { randomDishes, status } = useSelector(
+    (state: RootState) => state.dishes
+  );
+
   const { classes } = useStyles();
-  const [dishes, setDishes] = useState<Dishes[]>([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchDishes() {
-      try {
-        const response = await axios.get<Dishes[]>(
-          'https://62f52077535c0c50e76a5f03.mockapi.io/dishes'
-        );
-        setDishes(response.data.sort(() => Math.random() - 0.5).slice(0, 4));
-        setLoading(false);
-      } catch (error) {
-        alert(error);
-      }
-    }
-    fetchDishes();
-  }, []);
-
-  const products: any = useSelector((state: any) => state.cart.products);
-  const dispatch = useDispatch();
+    dispatch(fetchDishesRandomly());
+  }, [dispatch]);
 
   const onClickClear = () => {
     if (window.confirm('Очистить корзину?')) dispatch(clearProduct());
@@ -109,9 +100,11 @@ const Cart = () => {
             </Box>
           </Box>
           <Box sx={{ mb: 5, borderRadius: '10px' }}>
-            {products.map((item: any) => (
-              <CartItem key={item.id} {...item} />
-            ))}
+            {products.length > 0 ? (
+              products.map((item) => <CartItem key={item.id} {...item} />)
+            ) : (
+              <CartEmpty />
+            )}
           </Box>
           <Typography
             sx={{
@@ -126,9 +119,13 @@ const Cart = () => {
             Добавить к заказу
           </Typography>
           <Box sx={{ display: 'flex' }}>
-            {loading
-              ? [...new Array(4)].map((_, index) => <SkeletonCartAddItem />)
-              : dishes.map((item) => <CartAddItem key={item.id} {...item} />)}
+            {status === 'loading'
+              ? [...new Array(4)].map((_, index) => (
+                  <SkeletonCartAddItem key={index} />
+                ))
+              : randomDishes.map((item) => (
+                  <CartAddItem key={item.id} {...item} />
+                ))}
           </Box>
           <CartTotal />
         </Box>

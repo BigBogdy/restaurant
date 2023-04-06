@@ -3,12 +3,10 @@ import { Box } from '@mui/system';
 import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from 'tss-react/mui';
 import DishCard from './DishCard';
-import axios from 'axios';
-import { Dishes } from './types';
 import SkeletonDishCard from './DishCard/SkeletonDishCard';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '../redux/store';
-import { fetchDishes } from '../redux/slices/dishesSlice';
+import { AppDispatch, RootState } from '../redux/store';
+import { fetchDishesByCategoryId } from '../redux/dishes/slice';
 
 const useStyles = makeStyles()((theme) => ({
   tabText: {
@@ -23,7 +21,18 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const menuList = [
+type MenuItemList = {
+  id: number;
+  name: string;
+}[];
+
+type TabPanelProps = {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+};
+
+const menuList: MenuItemList = [
   {
     id: 0,
     name: 'Холодные закуски',
@@ -37,7 +46,7 @@ const menuList = [
   { id: 7, name: 'Напитки' },
 ];
 
-const TabPanel = (props: any) => {
+const TabPanel = (props: TabPanelProps) => {
   const { children, value, index, ...other } = props;
 
   return (
@@ -58,22 +67,25 @@ const TabPanel = (props: any) => {
 };
 
 const Menu: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { categoryDishes, status } = useSelector(
+    (state: RootState) => state.dishes
+  );
+
   const { classes } = useStyles();
 
-  const dispatch = useDispatch<AppDispatch>();
-  // const [dishes, setDishes] = useState<Dishes[]>([]);
-  const { products, status } = useSelector((state: any) => state.dishes);
   const [categoryId, setCategoryId] = useState(0);
-
-  useEffect(() => {
-    dispatch(fetchDishes(categoryId));
-  }, [categoryId]);
-
   const [value, setValue] = useState(0);
 
+  useEffect(() => {
+    dispatch(fetchDishesByCategoryId(categoryId));
+  }, [categoryId, dispatch]);
+
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    console.log(newValue);
     setValue(newValue);
   };
+
   return (
     <Box>
       <Box
@@ -137,7 +149,7 @@ const Menu: FC = () => {
                   <SkeletonDishCard />
                 </Grid>
               ))
-            : products.map((item: any) => (
+            : categoryDishes.map((item) => (
                 <Grid item key={item.id}>
                   <DishCard {...item} />
                 </Grid>

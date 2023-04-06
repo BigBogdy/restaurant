@@ -1,20 +1,26 @@
-import React, { FC, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { FC, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Box, Button, Divider, Grid, Typography } from '@mui/material';
+import { Box, Button, Divider, Typography } from '@mui/material';
 import MapLocation from '../../components/MapLocation';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import { Container, Card } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import { Dishes } from '../../components/types';
 import DishCard from '../../components/DishCard';
 import ContactCard from '../../components/ContactCard';
-import { addProduct, minusProduct } from '../../redux/slices/cartSlice';
+
 import { useDispatch, useSelector } from 'react-redux';
 import SkeletonFullDish from './SkeletonFullDish';
 import SkeletonDishCard from '../../components/DishCard/SkeletonDishCard';
 
-const useStyles = makeStyles()((theme) => ({
+import { AppDispatch, RootState } from '../../redux/store';
+import {
+  addProduct,
+  minusProduct,
+  selectCartProductById,
+} from '../../redux/cart/slice';
+import { fetchDishById, fetchDishesRandomly } from '../../redux/dishes/slice';
+
+const useStyles = makeStyles()(() => ({
   card: {
     width: 1210,
     height: 399,
@@ -25,60 +31,40 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const FullDish: FC = () => {
+  const { id } = useParams();
+
+  const dispatch = useDispatch<AppDispatch>();
+
   const { classes } = useStyles();
 
-  const dispatch = useDispatch();
+  const { randomDishes, selectedDish, status } = useSelector(
+    (state: RootState) => state.dishes
+  );
 
-  const { id } = useParams();
-  const [dish, setDish] = useState<Dishes | null>(null);
-  const [dishes, setDishes] = useState<Dishes[]>([]);
-  const [loadingDishes, setLoadingDishes] = useState(true);
+  const foundItem = useSelector(selectCartProductById(id));
+
+  const itemCount = foundItem ? foundItem.count : '';
 
   useEffect(() => {
-    async function fetchDishes() {
-      try {
-        const response = await axios.get<Dishes[]>(
-          'https://62f52077535c0c50e76a5f03.mockapi.io/dishes'
-        );
-        setDishes(response.data.sort(() => Math.random() - 0.5).slice(0, 4));
-        setLoadingDishes(false);
-      } catch (error) {
-        alert(error);
-      }
-    }
-    fetchDishes();
-  }, []);
+    dispatch(fetchDishesRandomly());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchDishById(id));
+  }, [id, dispatch]);
 
   const onClickPlus = () => {
-    dispatch(addProduct(dish));
+    dispatch(addProduct(selectedDish));
   };
 
-  const onClickMinus = (e: any) => {
+  const onClickMinus = () => {
     dispatch(minusProduct({ id }));
   };
-
-  useEffect(() => {
-    async function fetchDish() {
-      try {
-        const response = await axios.get<Dishes>(
-          'https://62f52077535c0c50e76a5f03.mockapi.io/dishes/' + id
-        );
-        setDish(response.data);
-      } catch (error) {
-        alert('Error');
-      }
-    }
-    fetchDish();
-  }, [id]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const foundItem = useSelector((state: any) =>
-    state.cart.products.find((item: any) => item.id === id)
-  );
-  const itemCount = foundItem ? foundItem.count : '';
   return (
     <>
       <Container maxWidth={false} sx={{ maxWidth: 1320 }}>
@@ -109,20 +95,20 @@ const FullDish: FC = () => {
             </Box>
           </Link>
           <Box sx={{ justifyContent: 'center', display: 'flex' }}>
-            {dish ? (
+            {status !== 'loading' && selectedDish ? (
               <Card className={classes.card}>
                 <Box sx={{ display: 'flex' }}>
                   <img
                     style={{ width: 599, height: 399 }}
-                    src={dish.imageUrl}
+                    src={selectedDish.imageUrl}
                     alt="cold"
                   />
                   <Box sx={{ margin: '38px 0px 0px 50px' }}>
                     <Typography variant="body2" fontSize={25}>
-                      {dish.title}
+                      {selectedDish.title}
                     </Typography>
                     <Typography sx={{ mb: 18.875 }}>
-                      {dish.description}
+                      {selectedDish.description}
                     </Typography>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                       {itemCount ? (
@@ -158,7 +144,7 @@ const FullDish: FC = () => {
                                 justifyContent: 'center',
                               }}
                             >
-                              {itemCount * dish.price} ₴
+                              {itemCount * selectedDish.price} ₴
                             </Typography>
                             <Button
                               sx={{
@@ -206,7 +192,7 @@ const FullDish: FC = () => {
                             </Box>
                           </Button>
                           <Typography variant="body2" fontSize={25}>
-                            {dish.price} ₴
+                            {selectedDish.price} ₴
                           </Typography>
                         </>
                       )}
@@ -234,13 +220,13 @@ const FullDish: FC = () => {
             С этим товаром покупают
           </Typography>
           <Box sx={{ display: 'flex' }}>
-            {loadingDishes
+            {status === 'loading'
               ? [...new Array(4)].map((_, index) => (
                   <Box key={index} sx={{ mr: 2 }}>
                     <SkeletonDishCard />
                   </Box>
                 ))
-              : dishes.map((item) => (
+              : randomDishes.map((item) => (
                   <Box key={item.id} sx={{ mr: 2 }}>
                     <DishCard key={item.id} {...item} />
                   </Box>

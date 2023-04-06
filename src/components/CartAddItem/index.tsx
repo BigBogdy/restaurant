@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useDispatch } from 'react-redux';
-import { addProduct } from '../../redux/slices/cartSlice';
+import { addProduct } from '../../redux/cart/slice';
+import { Dish } from '../types';
 
 const useStyles = makeStyles()((theme) => ({
   image: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const AddItemCart = ({ id, imageUrl, title, price, description }: any) => {
+const AddItemCart: FC<Dish> = ({ id, imageUrl, title, price, description }) => {
   const { classes } = useStyles();
   const dispatch = useDispatch();
   const onClickPlus = () => {

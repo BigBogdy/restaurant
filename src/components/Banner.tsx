@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import React from 'react';
+import React, { FC } from 'react';
 import { makeStyles } from 'tss-react/mui';
 const useStyles = makeStyles()((theme) => ({
   banner: {
@@ -11,7 +11,7 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-const Banner = () => {
+const Banner: FC = () => {
   const { classes } = useStyles();
   return (
     <>

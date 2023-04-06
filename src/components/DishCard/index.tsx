@@ -1,11 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import { Box } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, minusProduct } from '../../redux/slices/cartSlice';
+import {
+  addProduct,
+  minusProduct,
+  selectCartProductById,
+} from '../../redux/cart/slice';
+import { Dish } from '../types';
 
 const useStyles = makeStyles()((theme) => ({
   card: {
@@ -42,40 +47,33 @@ const useStyles = makeStyles()((theme) => ({
   },
 }));
 
-type DishCardProps = {
-  id: string;
-  imageUrl: string;
-  title: string;
-  price: number;
-  category: number;
-  description: string;
-};
-const DishCard: FC<DishCardProps> = ({
+const DishCard: FC<Dish> = ({
   id,
   imageUrl,
   title,
   price,
   description,
+  count,
 }) => {
+  const dispatch = useDispatch();
+  const foundItem = useSelector(selectCartProductById(id));
+
+  const itemCount = foundItem ? foundItem.count : 0;
+
   const { classes } = useStyles();
   let navigate = useNavigate();
 
-  const foundItem = useSelector((state: any) =>
-    state.cart.products.find((item: any) => item.id === id)
-  );
-
-  const itemCount = foundItem ? foundItem.count : '';
-
-  const dispatch = useDispatch();
-
-  const onCardClick = (e: any) => {
-    if (e.target.dataset.isbtn !== 'true') {
+  const onCardClick = (
+    e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
+  ): void => {
+    const target = e.target as HTMLDivElement;
+    if (target.dataset.isbtn !== 'true') {
       navigate(`/dish/${id}`);
       window.scrollTo(0, 0);
     }
   };
 
-  const onClickAdd = (e: any) => {
+  const onClickPlus = () => {
     const product = {
       id,
       imageUrl,
@@ -86,7 +84,7 @@ const DishCard: FC<DishCardProps> = ({
     dispatch(addProduct(product));
   };
 
-  const onClickMinus = (e: any) => {
+  const onClickMinus = () => {
     dispatch(minusProduct({ id }));
   };
 
@@ -166,7 +164,7 @@ const DishCard: FC<DishCardProps> = ({
                   justifyContent: 'center',
                 }}
                 data-isbtn="true"
-                onClick={onClickAdd}
+                onClick={onClickPlus}
               >
                 +
               </Button>
@@ -186,7 +184,7 @@ const DishCard: FC<DishCardProps> = ({
               </Typography>
               <Button
                 data-isbtn="true"
-                onClick={onClickAdd}
+                onClick={onClickPlus}
                 className={classes.btn}
                 endIcon={
                   <img
