@@ -1,15 +1,46 @@
-import { Box, Button, Container, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { Box, Button, Card, Container, Grid, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+
+import { useDispatch } from 'react-redux';
 import { addProduct, minusProduct, removeProduct } from '../redux/cart/slice';
-import { Dish } from './types';
+
+import { Dish } from '../types';
 
 const useStyles = makeStyles()((theme) => ({
+  card: {
+    background: 'linear-gradient(90deg, #494544 0%, #504B4A 100%)',
+    width: 1096,
+    height: 131,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: '1px solid #403C3B',
+  },
   image: {
     width: 117,
     height: 86,
     marginRight: 39,
+    paddingLeft: 40,
+  },
+  btnPlusMinClear: {
+    width: 26,
+    height: 26,
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    '&:disabled': {
+      opacity: 0.5,
+      cursor: 'not-allowed',
+    },
+  },
+  btnText: {
+    color: 'white',
+    fontSize: 20,
+    fontWeight: 700,
+    display: 'flex',
+    justifyContent: 'center',
   },
 }));
 
@@ -20,11 +51,23 @@ const CartItem: FC<Dish> = ({
   price,
   description,
   count,
+  category,
 }) => {
+  const { classes } = useStyles();
+
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
-    dispatch(addProduct({ id }));
+    const product: Dish = {
+      id,
+      imageUrl,
+      title,
+      price,
+      description,
+      category,
+      count,
+    };
+    dispatch(addProduct(product));
   };
 
   const onClickMinus = () => {
@@ -35,21 +78,9 @@ const CartItem: FC<Dish> = ({
     dispatch(removeProduct(id));
   };
 
-  const { classes } = useStyles();
-
   return (
     <Container sx={{ display: 'flex', justifyContent: 'center' }}>
-      <Box
-        sx={{
-          background: 'linear-gradient(90deg, #494544 0%, #504B4A 100%)',
-          width: 1096,
-          height: 131,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          border: '1px solid #403C3B',
-        }}
-      >
+      <Card className={classes.card}>
         <img className={classes.image} src={imageUrl} alt="img" />
         <Box>
           <Typography
@@ -66,84 +97,43 @@ const CartItem: FC<Dish> = ({
             {description}
           </Typography>
         </Box>
-        <Box sx={{ display: 'flex', mr: 16.25 }}>
-          <Button
-            onClick={onClickMinus}
-            sx={{
-              width: 26,
-              height: 26,
-              borderRadius: '50%',
-              display: 'flex',
-              justifyContent: 'center',
-              '&:disabled': {
-                opacity: 0.5,
-                cursor: 'not-allowed',
-              },
-            }}
-            disabled={count <= 0}
-          >
+        <Grid container spacing={4}>
+          <Grid item>
+            <Button
+              onClick={onClickMinus}
+              className={classes.btnPlusMinClear}
+              disabled={count <= 0}
+            >
+              <Typography className={classes.btnText}>-</Typography>
+            </Button>
+          </Grid>
+          <Grid item xs={1}>
             <Typography
               sx={{
                 color: 'white',
-                fontSize: 20,
                 fontWeight: 700,
-                display: 'flex',
-                justifyContent: 'center',
               }}
             >
-              -
+              {count}
             </Typography>
-          </Button>
-          <Typography
-            sx={{
-              color: 'white',
-              fontWeight: 700,
-              padding: '0px 12px 0px 12px',
-            }}
-          >
-            {count}
-          </Typography>
-          <Button
-            onClick={onClickPlus}
-            sx={{
-              width: 26,
-              height: 26,
-              borderRadius: '50%',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <Typography
-              sx={{
-                color: 'white',
-                fontSize: 20,
-                fontWeight: 700,
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              +
+          </Grid>
+          <Grid item xs>
+            <Button onClick={onClickPlus} className={classes.btnPlusMinClear}>
+              <Typography className={classes.btnText}>+</Typography>
+            </Button>
+          </Grid>
+          <Grid item xs>
+            <Typography sx={{ color: 'white', fontWeight: 700 }}>
+              {price * count} ₴
             </Typography>
-          </Button>
-        </Box>
-        <Typography sx={{ color: 'white', fontWeight: 700, mr: 8.875 }}>
-          {price * count} ₴
-        </Typography>
-        <Button
-          onClick={onClickRemove}
-          sx={{
-            width: 26,
-            height: 26,
-            borderRadius: '50%',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography sx={{ color: 'white', fontSize: 16, fontWeight: 700 }}>
-            x
-          </Typography>
-        </Button>
-      </Box>
+          </Grid>
+          <Grid item xs>
+            <Button onClick={onClickRemove} className={classes.btnPlusMinClear}>
+              <Typography className={classes.btnText}>x</Typography>
+            </Button>
+          </Grid>
+        </Grid>
+      </Card>
     </Container>
   );
 };

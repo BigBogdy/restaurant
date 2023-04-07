@@ -1,14 +1,17 @@
 import React from 'react';
-import Header from './components/Header';
 import './index.css';
 import './fonts/assets.css';
 import { Box } from '@mui/system';
-import Home from './pages/Home';
+
 import { Routes, Route } from 'react-router-dom';
+
 import FullDish from './pages/FullDish';
-import Footer from './components/Footer';
+import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Order from './pages/Order';
+import NotFound from './pages/NotFound';
+import Footer from './components/Footer';
+import Header from './components/Header';
 
 function App() {
   return (
@@ -24,6 +27,7 @@ function App() {
           <Route path="/dish/:id" element={<FullDish />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order" element={<Order />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Footer />
       </Box>

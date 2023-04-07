@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import ReactMapGL, { Marker } from 'react-map-gl';
+
 const MapLocation = () => {
   const [viewport, setViewport] = useState({
-    latitude: 55.760824,
-    longitude: 37.230857,
+    latitude: 50.4457483,
+    longitude: 30.5070967,
     zoom: 15,
   });
 
@@ -20,7 +21,7 @@ const MapLocation = () => {
         {...viewport}
         onMove={(evt) => setViewport(evt.viewState)}
       >
-        <Marker latitude={55.760824} longitude={37.230857}>
+        <Marker latitude={50.4457483} longitude={30.5070967}>
           <img style={{ marginLeft: 55 }} src="/images/Mark.svg" alt="mark" />
         </Marker>
       </ReactMapGL>

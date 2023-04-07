@@ -1,7 +1,7 @@
+import React, { FC, useEffect } from 'react';
 import { Box, Container, Typography } from '@mui/material';
-import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
+import { Link } from 'react-router-dom';
 import OrderDertails from '../components/OrderDetails';
 
 const useStyles = makeStyles()((theme) => ({
@@ -43,6 +43,10 @@ const useStyles = makeStyles()((theme) => ({
 
 const Order: FC = () => {
   const { classes } = useStyles();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Container maxWidth={false} sx={{ maxWidth: 800 }}>

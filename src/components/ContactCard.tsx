@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
@@ -53,8 +54,7 @@ const ContactCard: FC = () => {
               Наш адрес:
             </Typography>
             <Typography variant="body2" fontWeight={600} marginBottom={2.5}>
-              МО, городской округ Красногорск, село Ильинкое, Экспериментальная
-              улица, 10
+              Вулиця Богдана Хмельницького, 40/25, Київ, Украина, 01030
             </Typography>
           </Box>
         </Box>
@@ -90,7 +90,7 @@ const ContactCard: FC = () => {
         <Box>
           <Typography
             variant="body2"
-            fontSize={23}
+            fontSize={20}
             sx={{
               cursor: 'pointer',
               mb: 0.2,

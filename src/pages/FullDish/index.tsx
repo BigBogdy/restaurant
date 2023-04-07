@@ -1,24 +1,28 @@
 import React, { FC, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { Box, Button, Divider, Typography } from '@mui/material';
-import MapLocation from '../../components/MapLocation';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
-import { Container, Card } from '@mui/material';
+
 import { makeStyles } from 'tss-react/mui';
+import { Box, Button, Divider, Typography } from '@mui/material';
+import { Container, Card } from '@mui/material';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+
+import { Link, useParams } from 'react-router-dom';
+
+import MapLocation from '../../components/MapLocation';
+
 import DishCard from '../../components/DishCard';
 import ContactCard from '../../components/ContactCard';
 
 import { useDispatch, useSelector } from 'react-redux';
-import SkeletonFullDish from './SkeletonFullDish';
-import SkeletonDishCard from '../../components/DishCard/SkeletonDishCard';
-
-import { AppDispatch, RootState } from '../../redux/store';
 import {
   addProduct,
   minusProduct,
   selectCartProductById,
 } from '../../redux/cart/slice';
+import { AppDispatch, RootState } from '../../redux/store';
 import { fetchDishById, fetchDishesRandomly } from '../../redux/dishes/slice';
+
+import SkeletonFullDish from './SkeletonFullDish';
+import SkeletonDishCard from '../../components/DishCard/SkeletonDishCard';
 
 const useStyles = makeStyles()(() => ({
   card: {
@@ -28,14 +32,21 @@ const useStyles = makeStyles()(() => ({
     borderRadius: 10,
     marginBottom: 100,
   },
+  btnPlusMin: {
+    width: 62,
+    height: 44,
+    fontSize: 32,
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 const FullDish: FC = () => {
+  const { classes } = useStyles();
+
   const { id } = useParams();
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const { classes } = useStyles();
 
   const { randomDishes, selectedDish, status } = useSelector(
     (state: RootState) => state.dishes
@@ -50,15 +61,15 @@ const FullDish: FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchDishById(id));
+    id && dispatch(fetchDishById(id));
   }, [id, dispatch]);
 
   const onClickPlus = () => {
-    dispatch(addProduct(selectedDish));
+    selectedDish && dispatch(addProduct(selectedDish));
   };
 
   const onClickMinus = () => {
-    dispatch(minusProduct({ id }));
+    id && dispatch(minusProduct({ id }));
   };
 
   useEffect(() => {
@@ -121,13 +132,7 @@ const FullDish: FC = () => {
                             }}
                           >
                             <Button
-                              sx={{
-                                width: 62,
-                                height: 44,
-                                fontSize: 32,
-                                display: 'flex',
-                                justifyContent: 'center',
-                              }}
+                              className={classes.btnPlusMin}
                               data-isbtn="true"
                               onClick={onClickMinus}
                             >
@@ -147,13 +152,7 @@ const FullDish: FC = () => {
                               {itemCount * selectedDish.price} ₴
                             </Typography>
                             <Button
-                              sx={{
-                                width: 62,
-                                height: 44,
-                                fontSize: 32,
-                                display: 'flex',
-                                justifyContent: 'center',
-                              }}
+                              className={classes.btnPlusMin}
                               data-isbtn="true"
                               onClick={onClickPlus}
                             >

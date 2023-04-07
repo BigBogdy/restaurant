@@ -63,6 +63,8 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const OrderDertails: FC = () => {
+  const { classes } = useStyles();
+
   const [value, setValue] = useState('');
   const [address, setAddress] = useState('1');
 
@@ -78,7 +80,6 @@ const OrderDertails: FC = () => {
     setAddress(e.target.value);
   };
 
-  const { classes } = useStyles();
   return (
     <>
       <Box

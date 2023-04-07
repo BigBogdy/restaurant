@@ -1,4 +1,3 @@
-import { Box } from '@mui/material';
 import React from 'react';
 import ContentLoader from 'react-content-loader';
 

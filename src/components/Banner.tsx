@@ -1,13 +1,26 @@
-import { Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import React, { FC } from 'react';
 import { makeStyles } from 'tss-react/mui';
+import { Typography } from '@mui/material';
+import { Box } from '@mui/system';
+
 const useStyles = makeStyles()((theme) => ({
   banner: {
     alignItems: 'center',
     backgroundImage: 'url(images/Banner.jpg)',
     backgroundPosition: '100%',
     backgroundRepeat: 'no-repeat',
+  },
+  bannerText: {
+    color: 'white',
+    fontSize: 67,
+    paddingTop: 100,
+    textAlign: 'center',
+    transform: 'rotate(-8.37deg)',
+    width: 600,
+    fontFamily: 'Zing',
+    position: 'absolute',
+    letterSpacing: 0,
+    lineHeight: 'normal',
   },
 }));
 
@@ -26,21 +39,7 @@ const Banner: FC = () => {
               width: '70%',
             }}
           >
-            <Typography
-              component={'span'}
-              sx={{
-                color: 'white',
-                fontSize: 67,
-                pt: 12.5,
-                textAlign: 'center',
-                transform: 'rotate(-8.37deg)',
-                width: 600,
-                fontFamily: 'Zing',
-                position: 'absolute',
-                letterSpacing: 0,
-                lineHeight: 'normal',
-              }}
-            >
+            <Box className={classes.bannerText}>
               Доставка вкуснейших
               <br />
               блюд за 60 минут
@@ -53,7 +52,6 @@ const Banner: FC = () => {
                 }}
               >
                 <Typography
-                  component={'span'}
                   sx={{
                     color: 'white',
                     fontFamily: 'Zing',
@@ -73,7 +71,7 @@ const Banner: FC = () => {
                   alt="rectangle"
                 />
               </Box>
-            </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>

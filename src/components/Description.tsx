@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
+
 import { Box } from '@mui/system';
 import { makeStyles } from 'tss-react/mui';
 import { Typography, Button, Card, Grid } from '@mui/material';
-import { ReactComponent as Flash } from '../Flash.svg';
-import { ReactComponent as Onion } from '../Onion.svg';
-import { ReactComponent as Chef } from '../Chef.svg';
+
+import { ReactComponent as Flash } from '../assets/Flash.svg';
+import { ReactComponent as Onion } from '../assets/Onion.svg';
+import { ReactComponent as Chef } from '../assets/Chef.svg';
+
 const cards = [
   { text: 'Свежайшие продукты', imageUrl: <Onion /> },
   { text: 'Быстрая доставка', imageUrl: <Flash /> },

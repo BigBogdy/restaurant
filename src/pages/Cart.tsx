@@ -1,15 +1,18 @@
-import { Box, Container, Typography } from '@mui/material';
 import React, { FC, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Box, Container, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import CartAddItem from '../components/CartAddItem';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../redux/store';
+import { fetchDishesRandomly } from '../redux/dishes/slice';
+import { clearProduct, selectCart } from '../redux/cart/slice';
+
+import { Link } from 'react-router-dom';
+
+import SkeletonCartAddItem from '../components/CartAddItem/SkeletonCartAddItem';
 import CartItem from '../components/CartItem';
 import CartTotal from '../components/CartTotal';
-import { clearProduct, selectCart } from '../redux/cart/slice';
-import SkeletonCartAddItem from '../components/CartAddItem/SkeletonCartAddItem';
-import { fetchDishesRandomly } from '../redux/dishes/slice';
-import { AppDispatch, RootState } from '../redux/store';
+import CartAddItem from '../components/CartAddItem';
 import CartEmpty from '../components/CartEmpty';
 
 const useStyles = makeStyles()((theme) => ({
@@ -58,6 +61,10 @@ const Cart: FC = () => {
   const onClickClear = () => {
     if (window.confirm('Очистить корзину?')) dispatch(clearProduct());
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Container maxWidth={false} sx={{ maxWidth: 1320 }}>

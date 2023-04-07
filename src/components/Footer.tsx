@@ -88,7 +88,7 @@ const Footer: FC = () => {
                 mb: 0.875,
               }}
             >
-              © ООО СК «АПШЕРОН» <br />
+              © ООО ФК «ШАХТАРЬ» <br />
               Все права защищены. 2010-
               {new Date().getFullYear()}
             </Typography>

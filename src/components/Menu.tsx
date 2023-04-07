@@ -1,12 +1,14 @@
-import { Grid, Tab, Tabs, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import React, { FC, useState, useEffect } from 'react';
+import { Grid, Tab, Tabs, Typography, Box } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
-import DishCard from './DishCard';
-import SkeletonDishCard from './DishCard/SkeletonDishCard';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../redux/store';
 import { fetchDishesByCategoryId } from '../redux/dishes/slice';
+
+import SkeletonDishCard from './DishCard/SkeletonDishCard';
+
+import DishCard from './DishCard';
 
 const useStyles = makeStyles()((theme) => ({
   tabText: {
@@ -67,12 +69,13 @@ const TabPanel = (props: TabPanelProps) => {
 };
 
 const Menu: FC = () => {
+  const { classes } = useStyles();
+
   const dispatch = useDispatch<AppDispatch>();
+
   const { categoryDishes, status } = useSelector(
     (state: RootState) => state.dishes
   );
-
-  const { classes } = useStyles();
 
   const [categoryId, setCategoryId] = useState(0);
   const [value, setValue] = useState(0);
@@ -82,7 +85,6 @@ const Menu: FC = () => {
   }, [categoryId, dispatch]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(newValue);
     setValue(newValue);
   };
 

@@ -1,10 +1,13 @@
+import React, { FC } from 'react';
+
 import { Box, Button, Typography } from '@mui/material';
-import React from 'react';
-import { useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/cart/slice';
 
-const CartAddItem = () => {
+const CartAddItem: FC = () => {
   const { totalPrice } = useSelector(selectCart);
 
   return (

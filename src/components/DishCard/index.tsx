@@ -1,7 +1,9 @@
 import React, { FC, MouseEvent } from 'react';
+
 import { Box } from '@mui/system';
 import { Button, Typography } from '@mui/material';
 import { makeStyles } from 'tss-react/mui';
+
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +12,8 @@ import {
   minusProduct,
   selectCartProductById,
 } from '../../redux/cart/slice';
-import { Dish } from '../types';
+
+import { Dish } from '../../types';
 
 const useStyles = makeStyles()((theme) => ({
   card: {
@@ -45,6 +48,25 @@ const useStyles = makeStyles()((theme) => ({
       marginRight: 0,
     },
   },
+  circleCount: {
+    width: 50,
+    height: 50,
+    borderRadius: '50%',
+    position: 'absolute',
+    background: '#79B382',
+    right: -10,
+    top: -10,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnPlusMin: {
+    width: 62,
+    height: 44,
+    fontSize: 32,
+    display: 'flex',
+    justifyContent: 'center',
+  },
 }));
 
 const DishCard: FC<Dish> = ({
@@ -54,14 +76,15 @@ const DishCard: FC<Dish> = ({
   price,
   description,
   count,
+  category,
 }) => {
+  const { classes } = useStyles();
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const foundItem = useSelector(selectCartProductById(id));
 
   const itemCount = foundItem ? foundItem.count : 0;
-
-  const { classes } = useStyles();
-  let navigate = useNavigate();
 
   const onCardClick = (
     e: MouseEvent<HTMLDivElement, globalThis.MouseEvent>
@@ -74,12 +97,14 @@ const DishCard: FC<Dish> = ({
   };
 
   const onClickPlus = () => {
-    const product = {
+    const product: Dish = {
       id,
       imageUrl,
       title,
       price,
       description,
+      category,
+      count,
     };
     dispatch(addProduct(product));
   };
@@ -93,20 +118,7 @@ const DishCard: FC<Dish> = ({
       <Box onClick={onCardClick} className={classes.card}>
         <img className={classes.image} src={imageUrl} alt="img" />
         {itemCount > 0 && (
-          <Box
-            sx={{
-              width: 50,
-              height: 50,
-              borderRadius: '50%',
-              position: 'absolute',
-              background: '#79B382',
-              right: -10,
-              top: -10,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}
-          >
+          <Box className={classes.circleCount}>
             <Typography typography={'body2'} sx={{ fontSize: 20 }}>
               {itemCount}
             </Typography>
@@ -132,13 +144,7 @@ const DishCard: FC<Dish> = ({
           {itemCount ? (
             <>
               <Button
-                sx={{
-                  width: 62,
-                  height: 44,
-                  fontSize: 32,
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
+                className={classes.btnPlusMin}
                 data-isbtn="true"
                 onClick={onClickMinus}
               >
@@ -156,13 +162,7 @@ const DishCard: FC<Dish> = ({
                 {itemCount * price} ₴
               </Typography>
               <Button
-                sx={{
-                  width: 62,
-                  height: 44,
-                  fontSize: 32,
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
+                className={classes.btnPlusMin}
                 data-isbtn="true"
                 onClick={onClickPlus}
               >

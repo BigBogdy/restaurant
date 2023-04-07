@@ -1,3 +1,4 @@
+import React, { FC, useState } from 'react';
 import {
   AppBar,
   TextField,
@@ -7,14 +8,13 @@ import {
   Button,
   Divider,
   Box,
+  Container,
 } from '@mui/material';
-import { Container } from '@mui/system';
-import { FC, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { makeStyles } from 'tss-react/mui';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../redux/cart/slice';
-import { Dish } from './types';
+import { Dish } from '../types';
 
 const useStyles = makeStyles()((theme) => ({
   input: {
@@ -58,12 +58,15 @@ const useStyles = makeStyles()((theme) => ({
 }));
 
 const Header: FC = () => {
+  const { classes } = useStyles();
+
   const { products } = useSelector(selectCart);
+
   const totalProducts = products.reduce(
     (sum: number, item: Dish) => sum + item.count,
     0
   );
-  const { classes } = useStyles();
+
   const [value, setValue] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
