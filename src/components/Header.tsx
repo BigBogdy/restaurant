@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import {
   AppBar,
   TextField,
@@ -40,7 +40,7 @@ const useStyles = makeStyles()((theme) => ({
   suggestionBox: {
     backgroundColor: '#504B4A',
     position: 'absolute',
-    width: 513,
+    width: 449,
     margin: '172px 0px 0px 168px',
     padding: '10px 20px',
     height: 100,
@@ -59,6 +59,8 @@ const useStyles = makeStyles()((theme) => ({
 
 const Header: FC = () => {
   const { classes } = useStyles();
+
+  const suggestionBoxRef = useRef<HTMLInputElement>(null);
 
   const { products } = useSelector(selectCart);
 
@@ -81,6 +83,23 @@ const Header: FC = () => {
       console.log('Error fetching data', error);
     }
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        suggestionBoxRef.current &&
+        !suggestionBoxRef.current.contains(event.target as Node)
+      ) {
+        setSuggestions([]);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [suggestionBoxRef]);
 
   return (
     <AppBar
@@ -152,7 +171,7 @@ const Header: FC = () => {
             }}
           />
           {suggestions?.length > 0 && (
-            <Box className={classes.suggestionBox}>
+            <Box className={classes.suggestionBox} ref={suggestionBoxRef}>
               {suggestions.map((suggestion: any, i) => (
                 <Typography
                   sx={{
