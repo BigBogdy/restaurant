@@ -71,7 +71,7 @@ const CartItem: FC<Dish> = ({
   };
 
   const onClickMinus = () => {
-    dispatch(minusProduct({ id }));
+    dispatch(minusProduct(id));
   };
 
   const onClickRemove = () => {
@@ -93,7 +93,7 @@ const CartItem: FC<Dish> = ({
           >
             {title}
           </Typography>
-          <Typography sx={{ width: 265, fontSize: 12, mr: 27.875 }}>
+          <Typography sx={{ minWidth: 265, fontSize: 12, mr: 27.875 }}>
             {description}
           </Typography>
         </Box>

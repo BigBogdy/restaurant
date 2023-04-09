@@ -69,7 +69,7 @@ const FullDish: FC = () => {
   };
 
   const onClickMinus = () => {
-    id && dispatch(minusProduct({ id }));
+    id && dispatch(minusProduct(id));
   };
 
   useEffect(() => {

@@ -110,7 +110,7 @@ const DishCard: FC<Dish> = ({
   };
 
   const onClickMinus = () => {
-    dispatch(minusProduct({ id }));
+    dispatch(minusProduct(id));
   };
 
   return (
