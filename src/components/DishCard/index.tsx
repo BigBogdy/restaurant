@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   addProduct,
   minusProduct,
+  removeProduct,
   selectCartProductById,
 } from '../../redux/cart/slice';
 
@@ -110,7 +111,11 @@ const DishCard: FC<Dish> = ({
   };
 
   const onClickMinus = () => {
-    dispatch(minusProduct(id));
+    if (itemCount === 1) {
+      dispatch(removeProduct(id));
+    } else {
+      dispatch(minusProduct(id));
+    }
   };
 
   return (

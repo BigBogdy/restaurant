@@ -19,7 +19,7 @@ const useStyles = makeStyles()((theme) => ({
     border: '1px solid #403C3B',
   },
   image: {
-    width: 117,
+    minWidth: 117,
     height: 86,
     marginRight: 39,
     paddingLeft: 40,
@@ -93,7 +93,7 @@ const CartItem: FC<Dish> = ({
           >
             {title}
           </Typography>
-          <Typography sx={{ minWidth: 265, fontSize: 12, mr: 27.875 }}>
+          <Typography sx={{ width: 265, fontSize: 12, mr: 27.875 }}>
             {description}
           </Typography>
         </Box>
@@ -102,7 +102,7 @@ const CartItem: FC<Dish> = ({
             <Button
               onClick={onClickMinus}
               className={classes.btnPlusMinClear}
-              disabled={count <= 0}
+              disabled={count <= 1}
             >
               <Typography className={classes.btnText}>-</Typography>
             </Button>

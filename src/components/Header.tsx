@@ -200,6 +200,7 @@ const Header: FC = () => {
               background:
                 'linear-gradient(114.93deg, #618967 5.11%, #72A479 94%)',
               mr: 1.25,
+              display: { md: 'block', xs: 'none' },
             }}
           >
             <img
@@ -212,7 +213,12 @@ const Header: FC = () => {
               alt="call"
             />
           </Box>
-          <Box sx={{ mr: 23.5 }}>
+          <Box
+            sx={{
+              mr: { lg: 23.5, md: 2 },
+              display: { md: 'block', xs: 'none' },
+            }}
+          >
             <Typography variant="body1" fontSize={12}>
               Контакты
             </Typography>
